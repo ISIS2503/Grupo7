@@ -1,6 +1,6 @@
 # Grupo 7
 
-## integrantes:
+## Integrantes:
 
 Julián Bermúdez.
 
