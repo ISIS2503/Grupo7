@@ -1,0 +1,178 @@
+[
+    {
+        "id": "5156a53a.633acc",
+        "type": "serial in",
+        "z": "8f25c909.f83858",
+        "name": "all4Sensors",
+        "serial": "8a07b9c9.74c088",
+        "x": 210,
+        "y": 140,
+        "wires": [
+            [
+                "f3bac0ee.25326",
+                "65ee850e.68fc4c"
+            ]
+        ]
+    },
+    {
+        "id": "c0178be4.ef7dc8",
+        "type": "inject",
+        "z": "8f25c909.f83858",
+        "name": "Sensor time",
+        "topic": "roomTime",
+        "payload": "",
+        "payloadType": "date",
+        "repeat": "1",
+        "crontab": "",
+        "once": true,
+        "x": 230,
+        "y": 280,
+        "wires": [
+            [
+                "f179467f.4d4438",
+                "8fd7d63c.d326b8"
+            ]
+        ]
+    },
+    {
+        "id": "f3bac0ee.25326",
+        "type": "debug",
+        "z": "8f25c909.f83858",
+        "name": "before Format",
+        "active": true,
+        "console": "false",
+        "complete": "payload",
+        "x": 440,
+        "y": 80,
+        "wires": []
+    },
+    {
+        "id": "f179467f.4d4438",
+        "type": "debug",
+        "z": "8f25c909.f83858",
+        "name": "before Format",
+        "active": true,
+        "console": "false",
+        "complete": "payload",
+        "x": 440,
+        "y": 260,
+        "wires": []
+    },
+    {
+        "id": "65ee850e.68fc4c",
+        "type": "function",
+        "z": "8f25c909.f83858",
+        "name": "Format Sensors",
+        "func": "var res{};\nvar tempArray[];\nvar tempUnit = \"\";\ntempString = msg.payload;\ntempArray = tempString.split(\"|\");\nres.payload= {};\nres.payload = {\"temperature\":tempArray[0], \n\"noise\": tempArray[1],\"monoxide\": tempArray[2],\n\"ilumination\": tempArray[3]};\n\nres.topic = \"sensorResults\";\n\n\n\nreturn res;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 440,
+        "y": 160,
+        "wires": [
+            [
+                "6145b58c.b7435c",
+                "d1d9e1d2.07d0a"
+            ]
+        ]
+    },
+    {
+        "id": "8fd7d63c.d326b8",
+        "type": "function",
+        "z": "8f25c909.f83858",
+        "name": "Format Time",
+        "func": "var res = {};\n\nres.payload = new Date(msg.payload);\nres.topic = msg.topic;\n\nreturn res;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 430,
+        "y": 320,
+        "wires": [
+            [
+                "4e88a10a.e5fe1",
+                "d1d9e1d2.07d0a"
+            ]
+        ]
+    },
+    {
+        "id": "6145b58c.b7435c",
+        "type": "debug",
+        "z": "8f25c909.f83858",
+        "name": "after Format",
+        "active": true,
+        "console": "false",
+        "complete": "payload",
+        "x": 690,
+        "y": 80,
+        "wires": []
+    },
+    {
+        "id": "4e88a10a.e5fe1",
+        "type": "debug",
+        "z": "8f25c909.f83858",
+        "name": "after Format",
+        "active": true,
+        "console": "false",
+        "complete": "payload",
+        "x": 650,
+        "y": 380,
+        "wires": []
+    },
+    {
+        "id": "d1d9e1d2.07d0a",
+        "type": "function",
+        "z": "8f25c909.f83858",
+        "name": "Merge 2 Messages",
+        "func": "context.data = context.data || {};\n\nswitch (msg.topic) {\n    case \"roomTime\":\n        context.data.sensetime = msg.payload;\n        msg = null;\n        break;\n    case \"sensorResults\":\n        context.data.temperature = msg.payload;\n        msg = null;\n        break;\n        \n    default:\n        msg = null;\n    \tbreak;\n}\n\nif(context.data.sensetime != null && context.data.temperature != null) {\n\tres = {};\n    res.payload = JSON.stringify(context.data);\n    res.topic = \"sensorResults\"\n    context.data = null;\n\treturn res;\n}",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 950,
+        "y": 320,
+        "wires": [
+            [
+                "235f8343.c2d3cc",
+                "3ad22013.0ab12"
+            ]
+        ]
+    },
+    {
+        "id": "235f8343.c2d3cc",
+        "type": "debug",
+        "z": "8f25c909.f83858",
+        "name": "after Merge",
+        "active": true,
+        "console": "false",
+        "complete": "payload",
+        "x": 1150,
+        "y": 260,
+        "wires": []
+    },
+    {
+        "id": "3ad22013.0ab12",
+        "type": "udp out",
+        "z": "8f25c909.f83858",
+        "name": "send Message",
+        "addr": "localhost",
+        "iface": "",
+        "port": "6000",
+        "ipv": "udp4",
+        "outport": "",
+        "base64": false,
+        "multicast": "false",
+        "x": 1160,
+        "y": 380,
+        "wires": []
+    },
+    {
+        "id": "8a07b9c9.74c088",
+        "type": "serial-port",
+        "z": "",
+        "serialport": "COM4",
+        "serialbaud": "9600",
+        "databits": "8",
+        "parity": "none",
+        "stopbits": "1",
+        "newline": "\\n",
+        "bin": "false",
+        "out": "char",
+        "addchar": true
+    }
+]
