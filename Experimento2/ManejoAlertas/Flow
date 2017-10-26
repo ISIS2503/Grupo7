@@ -1,0 +1,82 @@
+[
+    {
+        "id": "eb9d636f.78d7c",
+        "type": "tab",
+        "label": "Flow 3",
+        "disabled": false,
+        "info": ""
+    },
+    {
+        "id": "45099abb.662374",
+        "type": "mqtt in",
+        "z": "eb9d636f.78d7c",
+        "name": "ConsumidorProcessor1",
+        "topic": "processor1",
+        "qos": "0",
+        "broker": "6c75c982.fe64b8",
+        "x": 220,
+        "y": 320,
+        "wires": [
+            [
+                "bc4fb031.cffbb",
+                "b2fcf3c0.3ebcc"
+            ]
+        ]
+    },
+    {
+        "id": "bc4fb031.cffbb",
+        "type": "debug",
+        "z": "eb9d636f.78d7c",
+        "name": "FromProcessor2",
+        "active": true,
+        "console": "false",
+        "complete": "payload",
+        "x": 510,
+        "y": 240,
+        "wires": []
+    },
+    {
+        "id": "b2fcf3c0.3ebcc",
+        "type": "json",
+        "z": "eb9d636f.78d7c",
+        "name": "toJSON",
+        "pretty": false,
+        "x": 440,
+        "y": 320,
+        "wires": [
+            [
+                "b361e261.3b555"
+            ]
+        ]
+    },
+    {
+        "id": "b361e261.3b555",
+        "type": "debug",
+        "z": "eb9d636f.78d7c",
+        "name": "FromProcessor2AsJSON",
+        "active": false,
+        "console": "false",
+        "complete": "payload",
+        "x": 650,
+        "y": 320,
+        "wires": []
+    },
+    {
+        "id": "6c75c982.fe64b8",
+        "type": "mqtt-broker",
+        "z": "",
+        "broker": "localhost",
+        "port": "8083",
+        "clientid": "",
+        "usetls": false,
+        "compatmode": true,
+        "keepalive": "60",
+        "cleansession": true,
+        "willTopic": "",
+        "willQos": "0",
+        "willPayload": "",
+        "birthTopic": "",
+        "birthQos": "0",
+        "birthPayload": ""
+    }
+]

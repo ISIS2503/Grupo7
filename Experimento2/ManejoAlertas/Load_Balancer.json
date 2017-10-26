@@ -1,0 +1,125 @@
+[
+    {
+        "id": "583ec92c.0c7dd8",
+        "type": "tab",
+        "label": "Load Balancer",
+        "disabled": false,
+        "info": ""
+    },
+    {
+        "id": "71d1f55a.2b4f7c",
+        "type": "debug",
+        "z": "583ec92c.0c7dd8",
+        "name": "Raw data",
+        "active": false,
+        "console": "false",
+        "complete": "payload",
+        "x": 360,
+        "y": 240,
+        "wires": []
+    },
+    {
+        "id": "f8cae25.c57232",
+        "type": "debug",
+        "z": "583ec92c.0c7dd8",
+        "name": "",
+        "active": false,
+        "console": "false",
+        "complete": "payload",
+        "x": 530,
+        "y": 293,
+        "wires": []
+    },
+    {
+        "id": "2f61c052.757d2",
+        "type": "json",
+        "z": "583ec92c.0c7dd8",
+        "name": "",
+        "pretty": false,
+        "x": 352,
+        "y": 292,
+        "wires": [
+            [
+                "f8cae25.c57232",
+                "34a16d56.e96132"
+            ]
+        ]
+    },
+    {
+        "id": "d395d567.d024b8",
+        "type": "mqtt in",
+        "z": "583ec92c.0c7dd8",
+        "name": "Raw Data",
+        "topic": "data",
+        "qos": "0",
+        "broker": "6c75c982.fe64b8",
+        "x": 176,
+        "y": 293,
+        "wires": [
+            [
+                "71d1f55a.2b4f7c",
+                "2f61c052.757d2"
+            ]
+        ]
+    },
+    {
+        "id": "34a16d56.e96132",
+        "type": "function",
+        "z": "583ec92c.0c7dd8",
+        "name": "Balance",
+        "func": "var answer = {};\nanswer.payload = msg.payload;\n\nvar topics = [\"processor1\", \"processor2\"];\n\n// Inicializa count en 0 si aún no existe\n/*var count = context.get('count')||0;\n\nanswer.topic = topics[count];\n\n// Aumento según procesadores disponibles\ncount = (count+1) % topics.length;\n\n// Almacena el nuevo valor\ncontext.set('count', count);*/\n\nif (msg.payload.id < 1250) {\n    answer.topic = \"processor1\";\n}\n\nreturn answer;",
+        "outputs": "1",
+        "noerr": 0,
+        "x": 520,
+        "y": 333,
+        "wires": [
+            [
+                "a42bc385.bac73",
+                "2e19c953.1e3086"
+            ]
+        ]
+    },
+    {
+        "id": "a42bc385.bac73",
+        "type": "debug",
+        "z": "583ec92c.0c7dd8",
+        "name": "",
+        "active": false,
+        "console": "false",
+        "complete": "true",
+        "x": 710,
+        "y": 333,
+        "wires": []
+    },
+    {
+        "id": "2e19c953.1e3086",
+        "type": "mqtt out",
+        "z": "583ec92c.0c7dd8",
+        "name": "PubProcesssor1",
+        "topic": "",
+        "qos": "0",
+        "retain": "",
+        "broker": "6c75c982.fe64b8",
+        "x": 750,
+        "y": 373,
+        "wires": []
+    },
+    {
+        "id": "6c75c982.fe64b8",
+        "type": "mqtt-broker",
+        "z": "",
+        "broker": "localhost",
+        "port": "8083",
+        "clientid": "",
+        "usetls": false,
+        "compatmode": true,
+        "keepalive": "60",
+        "cleansession": true,
+        "willTopic": "",
+        "willQos": "0",
+        "willPayload": "",
+        "birthTopic": "",
+        "birthQos": "0",
+        "birthPayload": ""
+    }
+]
