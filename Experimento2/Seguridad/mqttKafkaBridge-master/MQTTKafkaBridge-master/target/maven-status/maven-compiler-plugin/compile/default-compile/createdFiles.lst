@@ -1,0 +1,5 @@
+com\m2mci\mqttKafkaBridge\CommandLineParser.class
+com\m2mci\mqttKafkaBridge\SslUtil.class
+example\producer\SimplePartitioner.class
+com\m2mci\mqttKafkaBridge\SslUtil$1.class
+com\m2mci\mqttKafkaBridge\Bridge.class

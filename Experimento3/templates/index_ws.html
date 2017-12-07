@@ -1,0 +1,345 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <title>Variables en tiempo real</title>
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/css/materialize.min.css">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+<body>
+
+  <div class="row">
+
+    <div class="col-md-6">
+      <div class="container">
+        <div id="containerTemp" style="float:left;"></div>
+        </div>
+      </div>
+
+      <div class="col-md-6">
+        <div class="container">
+          <div id="containerMono" style="float:left;"></div>
+        </div>
+      </div>
+      
+    </div>
+
+    <div class="row">
+
+      <div class="col-md-6">
+        <div class="container">
+          <div id="containerIlum" style="float:left;"></div>
+        </div>
+      </div>
+
+      <div class="col-md-6">
+        <div class="container">
+          <div id="containerRuid" style="float:left;"></div>
+        </div>
+      </div>  
+
+    </div>  
+
+
+    <script type="text/javascript" src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+    <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/socket.io/1.3.5/socket.io.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/js/materialize.min.js"></script>
+    <script src="https://code.highcharts.com/stock/highstock.js"></script>
+    <script src="https://code.highcharts.com/stock/modules/exporting.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.19.2/moment.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.19.2/locale/es-us.js"></script>
+
+    <script type="text/javascript">
+    $(document).ready(function() {
+      Highcharts.setOptions({
+        global: {
+          useUTC: false
+        }
+      });
+
+      Highcharts.stockChart('containerTemp', {
+        rangeSelector: {
+          buttons: [{
+            count: 1,
+            type: 'minute',
+            text: '1M'
+          }, {
+            count: 5,
+            type: 'minute',
+            text: '5M'
+          }, {
+            type: 'all',
+            text: 'All'
+          }],
+          inputEnabled: false,
+          selected: 0
+        },
+
+        title: {
+          text: 'Comportamiento de la Temperatura'
+        },
+
+        exporting: {
+          enabled: false
+        },
+
+        series: [{
+          name: 'Temperatura',
+          data: (function () {
+            var data = [],
+            time = (new Date()).getTime(),
+            i;
+
+            for (i = -999; i <= -990; i += 1) {
+              data.push([
+                time + i * 1000,
+                0
+                ]);
+            }
+            return data;
+          }())
+        }]
+      });
+
+      // Use a "/thermalcomfort" namespace.
+      namespace = '/thermalcomfort';
+      // Connect to the Socket.IO server.
+      var socket = io.connect(location.protocol + '//' + document.domain + ':' + location.port + namespace);
+
+      // Event handler for server receive data.
+      socket.on('mesurementsTemp', function(msg) {
+        if(msg!="Connected!!!"){
+          var str = JSON.stringify(eval('('+msg+')'));
+          var data = JSON.parse(str);
+          var date = moment(data.time);
+          //$('#log').prepend('<tr><td>' + date.format('dddd, MMMM D - YYYY, h:mm:ss a') + '</td><td>' + data.value + '</td></tr>');
+          var chart=$("#containerTemp").highcharts();
+          chart.series[0].addPoint([date.valueOf(), data.value], true, true);
+        }
+      });
+
+    });
+    </script>
+    <script type="text/javascript">
+    $(document).ready(function() {
+      Highcharts.setOptions({
+        global: {
+          useUTC: false
+        }
+      });
+
+      Highcharts.stockChart('containerIlum', {
+        rangeSelector: {
+          buttons: [{
+            count: 1,
+            type: 'minute',
+            text: '1M'
+          }, {
+            count: 5,
+            type: 'minute',
+            text: '5M'
+          }, {
+            type: 'all',
+            text: 'All'
+          }],
+          inputEnabled: false,
+          selected: 0
+        },
+
+        title: {
+          text: 'Comportamiento de la Iluminación'
+        },
+
+        exporting: {
+          enabled: false
+        },
+
+        series: [{
+          name: 'Iluminación',
+          data: (function () {
+            var data = [],
+            time = (new Date()).getTime(),
+            i;
+
+            for (i = -999; i <= -990; i += 1) {
+              data.push([
+                time + i * 1000,
+                0
+                ]);
+            }
+            return data;
+          }())
+        }]
+      });
+
+      // Use a "/thermalcomfort" namespace.
+      namespace = '/thermalcomfort';
+      // Connect to the Socket.IO server.
+      var socket = io.connect(location.protocol + '//' + document.domain + ':' + location.port + namespace);
+
+      // Event handler for server receive data.
+      socket.on('mesurementsIlum', function(msg) {
+        if(msg!="Connected!!!"){
+          var str = JSON.stringify(eval('('+msg+')'));
+          var data = JSON.parse(str);
+          var date = moment(data.time);
+          //$('#log').prepend('<tr><td>' + date.format('dddd, MMMM D - YYYY, h:mm:ss a') + '</td><td>' + data.value + '</td></tr>');
+          var chart=$("#containerIlum").highcharts();
+          chart.series[0].addPoint([date.valueOf(), data.value], true, true);
+        }
+      });
+
+    });
+    </script>
+    <script type="text/javascript">
+    $(document).ready(function() {
+      Highcharts.setOptions({
+        global: {
+          useUTC: false
+        }
+      });
+
+      Highcharts.stockChart('containerMono', {
+        rangeSelector: {
+          buttons: [{
+            count: 1,
+            type: 'minute',
+            text: '1M'
+          }, {
+            count: 5,
+            type: 'minute',
+            text: '5M'
+          }, {
+            type: 'all',
+            text: 'All'
+          }],
+          inputEnabled: false,
+          selected: 0
+        },
+
+        title: {
+          text: 'Comportamiento del Monóxido de Carbono'
+        },
+
+        exporting: {
+          enabled: false
+        },
+
+        series: [{
+          name: 'Monóxido de Carbono',
+          data: (function () {
+            var data = [],
+            time = (new Date()).getTime(),
+            i;
+
+            for (i = -999; i <= -990; i += 1) {
+              data.push([
+                time + i * 1000,
+                0
+                ]);
+            }
+            return data;
+          }())
+        }]
+      });
+
+      // Use a "/thermalcomfort" namespace.
+      namespace = '/thermalcomfort';
+      // Connect to the Socket.IO server.
+      var socket = io.connect(location.protocol + '//' + document.domain + ':' + location.port + namespace);
+
+      // Event handler for server receive data.
+      socket.on('mesurementsMono', function(msg) {
+        if(msg!="Connected!!!"){
+          var str = JSON.stringify(eval('('+msg+')'));
+          var data = JSON.parse(str);
+          var date = moment(data.time);
+          //$('#log').prepend('<tr><td>' + date.format('dddd, MMMM D - YYYY, h:mm:ss a') + '</td><td>' + data.value + '</td></tr>');
+          var chart=$("#containerMono").highcharts();
+          chart.series[0].addPoint([date.valueOf(), data.value], true, true);
+        }
+      });
+
+    });
+
+
+
+    </script>
+
+    <script type="text/javascript">
+    $(document).ready(function() {
+      Highcharts.setOptions({
+        global: {
+          useUTC: false
+        }
+      });
+
+      Highcharts.stockChart('containerRuid', {
+        rangeSelector: {
+          buttons: [{
+            count: 1,
+            type: 'minute',
+            text: '1M'
+          }, {
+            count: 5,
+            type: 'minute',
+            text: '5M'
+          }, {
+            type: 'all',
+            text: 'All'
+          }],
+          inputEnabled: false,
+          selected: 0
+        },
+
+        title: {
+          text: 'Comportamiento del Ruido'
+        },
+
+        exporting: {
+          enabled: false
+        },
+
+        series: [{
+          name: 'Ruido',
+          data: (function () {
+            var data = [],
+            time = (new Date()).getTime(),
+            i;
+
+            for (i = -999; i <= -990; i += 1) {
+              data.push([
+                time + i * 1000,
+                0
+                ]);
+            }
+            return data;
+          }())
+        }]
+      });
+
+      // Use a "/thermalcomfort" namespace.
+      namespace = '/thermalcomfort';
+      // Connect to the Socket.IO server.
+      var socket = io.connect(location.protocol + '//' + document.domain + ':' + location.port + namespace);
+
+      // Event handler for server receive data.
+      socket.on('mesurementsRuid', function(msg) {
+        if(msg!="Connected!!!"){
+          var str = JSON.stringify(eval('('+msg+')'));
+          var data = JSON.parse(str);
+          var date = moment(data.time);
+          //$('#log').prepend('<tr><td>' + date.format('dddd, MMMM D - YYYY, h:mm:ss a') + '</td><td>' + data.value + '</td></tr>');
+          var chart=$("#containerRuid").highcharts();
+          chart.series[0].addPoint([date.valueOf(), data.value], true, true);
+        }
+      });
+
+    });
+
+
+
+    </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/js/materialize.min.js"></script>
+  </body>
+  </html>
