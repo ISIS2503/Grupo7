@@ -13,6 +13,7 @@ class Floors extends Component {
       code: ''
     });
   }
+  
   componentDidMount() {
     this.getAlarms();
   }
@@ -40,10 +41,13 @@ class Floors extends Component {
       console.log(this.state.alarms);
   }
   render() {
+    let FloorStyles={
+      color: '#000000'
+    }
     const { isAuthenticated } = this.props.auth;
     return (
       <div className="container">
-        <h1>Alarmas</h1>
+        <h1 style={FloorStyles}>Alarmas</h1>
         {/*<h2>Add a floor</h2>*/}
         {/*<form onSubmit={(event) => this.addFloor(event)}>
         <FormGroup controlId="formInlineName">
@@ -63,7 +67,7 @@ class Floors extends Component {
         </Button>
     </form>*/}
         <br />
-        <Table striped bordered condensed hover className="center">
+        <Table bordered condensed hover className="center" >
           <thead>
             <tr>
               <th>#</th>
@@ -76,10 +80,10 @@ class Floors extends Component {
               <th>Ubicacion</th>
             </tr>
           </thead>
-          <tbody>
+          <tbody >
             {this.state.alarms.map((alarm, index) => {
               return (
-                <Floor
+                <Floor 
                   key={index}
                   number={index + 1}
                   id={alarm.id}

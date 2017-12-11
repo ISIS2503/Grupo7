@@ -45,9 +45,9 @@ public class MeasurementLogic implements IMeasurementLogic {
 
     @Override
     public MeasurementDTO add(MeasurementDTO dto) {
-//        if (dto.getId() == null) {
-//            dto.setId(UUID.randomUUID().toString());
-//        }
+        if (dto.getId() == null) {
+            dto.setId(UUID.randomUUID().toString());
+        }
         MeasurementDTO result = MCONVERTER.entityToDto(persistence.add(MCONVERTER.dtoToEntity(dto)));
         return result;
     }

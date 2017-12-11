@@ -44,23 +44,23 @@ import javax.persistence.TemporalType;
 public class MeasurementEntity implements Serializable {
     
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    //@GeneratedValue(strategy = GenerationType.IDENTITY)
+    private String id;
 
     @Temporal(TemporalType.DATE)
     private Date sensetime;
-    
+
     private String type;
     
     private double dataValue;
     
     private String unit;
 
-    public Long getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(String id) {
         this.id = id;
     }
 

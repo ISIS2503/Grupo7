@@ -3,35 +3,43 @@ import { Panel, ControlLabel, Glyphicon } from 'react-bootstrap';
 import './Profile.css';
 
 class Profile extends Component {
+
   componentWillMount() {
     this.setState({ profile: {} });
     const { userProfile, getProfile } = this.props.auth;
-    console.log(this.props.auth);
+
     if (!userProfile) {
       getProfile((err, profile) => {
         this.setState({ profile });
       });
     } else {
       this.setState({ profile: userProfile });
+      window.profile = userProfile;
     }
   }
   render() {
+    const { isAuthenticated, login } = this.props.auth;
     const { profile } = this.state;
+    console.log(profile);
     return (
-      <div className="container">
-      <div className="profile-area">
-        <h1>{profile.name}</h1>
-        <Panel header="Profile">
-          <img src={profile.picture} alt="profile" />
-          <div>
-            <ControlLabel><Glyphicon glyph="user" /> Nickname</ControlLabel>
-            <h3>{profile.nickname}</h3>
+      <div>
+        <div className="container" >
+          <div className="row login_box" style={{ float: 'center' }}>
+            <div className="col-md-12" style={{ align: 'center' }}>
+              <div className="outter" style={{ marginLeft: '180px', marginTop: '40px' }}><img src={profile.picture} className="image-circle" /></div>
+
+              <div className="control" style={{ align: 'center' }}>
+                <h1>¡Hola! {profile.nickname}</h1>
+                <div className="label"> <Glyphicon glyph="envelope" /> Correo: </div>
+                <p> {profile.name}</p>
+                <p>Última modificación: {profile.updated_at}</p>
+              </div>
+            </div>
+
           </div>
-          <pre>{JSON.stringify(profile, null, 2)}</pre>
-        </Panel>
+        </div>
       </div>
-    </div>
-      
+
     );
   }
 }

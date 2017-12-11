@@ -3,18 +3,19 @@ import React, { Component } from 'react';
 class Home extends Component {
   render() {
     const { isAuthenticated, login } = this.props.auth;
+    
     return (
       <div className="container">
         {
           isAuthenticated() && (
-              <h4>
+              <h4 className="center">
                 You are logged in!
               </h4>
             )
         }
         {
           !isAuthenticated() && (
-              <h4>
+              <h4 className="center">
                 You are not logged in! Please{' '}
                 <a style={{cursor:'pointer'}} onClick={login.bind(this)}>
                   Log In

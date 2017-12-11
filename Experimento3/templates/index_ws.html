@@ -13,8 +13,8 @@
     <div class="col-md-6">
       <div class="container">
         <div id="containerTemp" style="float:left;"></div>
-        </div>
       </div>
+    </div>
 
       <div class="col-md-6">
         <div class="container">
@@ -34,7 +34,7 @@
 
       <div class="col-md-6">
         <div class="container">
-          <div id="containerRuid" style="float:left;"></div>
+          <div id="containerRuid" style="float:left; background-color:black"></div>
         </div>
       </div>  
 
@@ -53,11 +53,12 @@
     $(document).ready(function() {
       Highcharts.setOptions({
         global: {
-          useUTC: false
+          useUTC: false,
         }
       });
 
       Highcharts.stockChart('containerTemp', {
+
         rangeSelector: {
           buttons: [{
             count: 1,

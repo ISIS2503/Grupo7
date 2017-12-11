@@ -4,3 +4,13 @@
 .center {
 	text-align: center;
 }
+body{
+  background-image: url("https://image.freepik.com/free-vector/bright-background-with-dots_1055-3132.jpg");
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center center;
+}
+
+#root > div > div:nth-child(1) > div > div > div > div.bm-menu-wrap > div.bm-menu > nav {
+  background-color: azure;
+}

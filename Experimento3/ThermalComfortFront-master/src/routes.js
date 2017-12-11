@@ -8,6 +8,7 @@ import Auth from './Auth/Auth';
 import Floors from './Floors/Floors';
 import Datos from './Datos/Datos';
 import history from './history';
+import Users from './Users/Users';
 
 const auth = new Auth();
 
@@ -22,7 +23,20 @@ export const makeMainRoutes = () => {
     <Router history={history} component={App}>
         <div>
           <Route path="/" render={(props) => <App auth={auth} {...props} />} />
-          <Route path="/home" render={(props) => <Home auth={auth} {...props} />} />
+          <Route path="/home" render={(props) =>(
+            !auth.isAuthenticated()?(
+              <Home auth={auth} {...props} />
+            ):(
+              <Profile auth={auth} {...props} />
+            
+            ))} />
+          <Route path="/Usuarios" render={(props) =>(
+            !auth.isAuthenticated()?(
+              <Home auth={auth} {...props} />
+            ):(
+              <Users auth={auth} {...props} />
+            
+            ))} />
           <Route path="/profile" render={(props) => (
             !auth.isAuthenticated() ? (
               <Redirect to="/home"/>

@@ -2,6 +2,7 @@ body {
   margin: 0;
   padding: 0;
   font-family: sans-serif;
+  background-color: #c71f1f;
 }
 
 @import url(http://fonts.googleapis.com/css?family=Raleway:400,700,800);
@@ -143,6 +144,7 @@ h1 {
 #root > div > div > div > div:nth-child(1) > div{
   left:0px;
   position:absolute; 
+ 
 }
 .bm-item-list a span {
   margin-left: 10px;

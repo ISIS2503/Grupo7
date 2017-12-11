@@ -2,8 +2,14 @@ import React, { Component } from 'react';
 import { Navbar, Button, Row, Col } from 'react-bootstrap';
 import './App.css';
 import { slide as Menu } from 'react-burger-menu';
+import { Panel, ControlLabel, Glyphicon } from 'react-bootstrap';
+import './Profile/Profile.css';
+import Profile from './Profile/Profile.js';
+
 
 class App extends Component {
+
+
   goTo(route) {
     this.props.history.replace(`/${route}`)
   }
@@ -29,10 +35,10 @@ class App extends Component {
 
     let supervisors = [
       <a key="2" onClick={this.goTo.bind(this, 'profile')}><i className="fa fa-fw fa-star-o" /><span>Perfil</span></a>,
-      <a key="0"onClick={this.goTo.bind(this, 'Datos')}><i className="fa fa-fw fa-star-o" /><span>Variables en tiempo real</span></a>,
-      <a key="1" href=""><i className="fa fa-fw fa-star-o" /><span>Alertas</span></a>,
-      <a key="2" href=""><i className="fa fa-fw fa-star-o" /><span>Usuarios registrados</span></a>
-      
+      <a key="0" onClick={this.goTo.bind(this, 'Datos')}><i className="fa fa-fw fa-star-o" /><span>Variables en tiempo real</span></a>,
+      <a key="1" onClick={this.goTo.bind(this, 'floors')}><i className="fa fa-fw fa-star-o" /><span>Alertas</span></a>,
+      <a key="3" onClick={this.goTo.bind(this, 'Usuarios')}><i className="fa fa-fw fa-star-o" /><span>Usuarios registrados</span></a>
+
     ];
 
     let crossStyle = {
@@ -77,7 +83,6 @@ class App extends Component {
     )
 
     const { isAuthenticated, userHasRole } = this.props.auth;
-
     return (
       <div>
         <div>
@@ -85,6 +90,7 @@ class App extends Component {
             {
               isAuthenticated() && userHasRole(['admin']) && (
                 <Menu >
+
                   {
                     (supervisors).map((supervisor) => {
                       {
@@ -108,24 +114,17 @@ class App extends Component {
             }
           </div>
 
-          <Navbar fluid>
+          <Navbar style={{ backgroundImage: "url('https://image.freepik.com/free-vector/bright-background-with-dots_1055-3132.jpg'" }} fluid>
             <div className="navbarLogin">
               <Navbar.Header>
                 <Navbar.Brand>
-                  <a href="/#">Mina Samacá</a>
+                  <a onClick={this.goTo.bind(this, 'home')}>Mina Samacá</a>
                 </Navbar.Brand>
               </Navbar.Header>
               {
                 !isAuthenticated() && (
                   <Button bsStyle="primary" className="btn-margin pull-right" onClick={this.login.bind(this)}>
                     Log In
-                </Button>
-                )
-              }
-              {
-                isAuthenticated() && (
-                  <Button bsStyle="primary" className="btn-margin" onClick={this.goTo.bind(this, 'floors')}>
-                    Profile
                 </Button>
                 )
               }

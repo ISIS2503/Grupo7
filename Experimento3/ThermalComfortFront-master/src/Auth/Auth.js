@@ -27,6 +27,7 @@ export default class Auth {
   }
 
   login() {
+    console.log("asdfasdfsadf");
     this.auth0.authorize();
   }
 
@@ -53,7 +54,6 @@ export default class Auth {
     // use the scopes as requested. If no scopes were requested,
     // set it to nothing
     const scopes = authResult.scope || this.requestedScopes || '';
-    console.log(authResult);
 
     localStorage.setItem('access_token', authResult.accessToken);
     localStorage.setItem('id_token', authResult.idToken);
@@ -64,7 +64,8 @@ export default class Auth {
     history.replace('/home');
   }
 
-  getAccessToken() {
+  getAccessToken() { 
+    
     const accessToken = localStorage.getItem('access_token');
     if (!accessToken) {
       throw new Error('No access token found');
